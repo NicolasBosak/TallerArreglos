@@ -1,3 +1,7 @@
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+
 public class Parqueadero {
     public static final int TAMANO = 40;
     public static final int NO_HAY_PUESTO = -1;
@@ -109,8 +113,9 @@ public class Parqueadero {
             int numPuestoCarro = buscarPuestoCarro( pPlaca.toUpperCase( ) );
             if( numPuestoCarro != CARRO_NO_EXISTE )
             {
-                resultado = CARRO_YA_EXISTE;
+                return resultado = CARRO_YA_EXISTE;
             }
+
             // Buscar un puesto libre para el carro y agregarlo
             resultado = buscarPuestoLibre( );
             if( resultado != NO_HAY_PUESTO )
@@ -119,6 +124,7 @@ public class Parqueadero {
                 puestos[ resultado ].parquearCarro( carroEntrando );
             }
         }
+
         return resultado;
     }
     /**
@@ -270,6 +276,63 @@ public class Parqueadero {
         boolean ocupado = puestos[ pPuesto ].estaOcupado( );
         return ocupado;
     }
+    public boolean hayCarrosPlacaIgual(String[] placas){
+        HashSet<String> placasUnicas = new HashSet<>();
+        for (String placa : placas){
+            if (placasUnicas.contains(placa)){
+                return true;
+            }else {
+                placasUnicas.add(placa);
+            }
+        }
+        return false;
+    }
+    public static double darTiempoPromedio(){
+        int[] horallegada = new int[0];
+        if (horallegada.length == 0){
+            return 0;
+        }
+        int sumahorallegada = 0;
+        for (int promedio : horallegada){
+            sumahorallegada += promedio;
+        }
+        return (double) sumahorallegada/horallegada.length;
+    }
+    public static String hayCarroMasDeOchoHoras(int[] tiempos, String[] placas){
+        if (tiempos.length == 0 || placas.length == 0){
+            return null;
+        }
+        int maxTiempo = tiempos[0];
+        int indexMaxTiempo = 0;
+        for (int i = 1; i<tiempos.length; i++){
+            if (tiempos[i] > maxTiempo){
+                maxTiempo = tiempos[i];
+                indexMaxTiempo=i;
+            }
+        }
+        return placas[indexMaxTiempo];
+    }
+    public static boolean hayCarroMasOchoHoras(){
+        int[] tiempos = new int[0];
+        for (int tiempo : tiempos){
+            if (tiempo > 8){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static List<String> darCarrosMasDeTresHorasParqueados(){
+        int[] tiempos = new int[0];
+        String[] placas = new String[0];
+        List<String> carrosMasDeTresHoras = new ArrayList<>();
+        for (int i = 0; i < tiempos.length; i++){
+            if (tiempos[i] > 3){
+                carrosMasDeTresHoras.add(placas[i]);
+            }
+        }
+        return carrosMasDeTresHoras;
+    }
     public boolean hayCarroCon24Horas(){
         for (int tiempo : tiempos){
             if(tiempo >= 24){
@@ -290,7 +353,7 @@ public class Parqueadero {
                 }
             }
         }
-        String mensaje = "Cantidad de carros con placa PB: "+contadorCarrosPB+" - Hay carro parqueado por 24 o mas horas: ";
+        String mensaje = "Cantidad de carros con placa PB: "+contadorCarrosPB+" - Hay carro parqueado por 24 o mas horas: "+hayCarro24Horas;
         if (hayCarro24Horas){
             mensaje += "Si.";
         }else {
